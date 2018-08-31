@@ -3,3 +3,6 @@ install:
 
 start:
 	npm run babel-node -- src/bin/ClientsLib.js
+
+test:
+	npm test
