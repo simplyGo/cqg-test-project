@@ -8,4 +8,12 @@ function getItems(userInput) {
   return userInput.split(', ');
 }
 
-export { getSuppliers, getItems }
+function getClientsNumber(userInput) {
+  return userInput;
+}
+
+function getClientName(userInput) {
+  return userInput;
+}
+
+export { getSuppliers, getItems, getClientsNumber, getClientName }

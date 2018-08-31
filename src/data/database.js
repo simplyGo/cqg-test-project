@@ -1,9 +1,23 @@
 import Suppliers from '../class/Suppliers';
-import { suppliersList, itemsList } from './inputData';
 import ClientsLib from '../class/ClientsLib';
+import { suppliersList, itemsList, clientsOrder } from '../../config.js'; // load data from config
 
-const suppliers = new Suppliers(suppliersList);
-const items = itemsList;
-const clients = new ClientsLib();
+let suppliers = new Suppliers(suppliersList);
+let items = itemsList;
+let clients = new ClientsLib();
 
-export { suppliers, items, clients }
+// for Tests
+
+function setSuppliers(arr) {
+  suppliers = new Suppliers(arr);
+}
+
+function setItems(arr) {
+  items = arr;
+}
+
+function refreshClientsBase() {
+  clients = new ClientsLib();
+}
+
+export { suppliers, items, clients, setSuppliers, setItems, refreshClientsBase }

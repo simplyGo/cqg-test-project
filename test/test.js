@@ -1,11 +1,10 @@
-import { suppliers, items, clients } from '../src/data/database';
+import { suppliers, items, clients, setSuppliers, setItems, refreshClientsBase } from '../src/data/database';
 import Suppliers from '../src/class/Suppliers';
 import ClientsLib from '../src/class/ClientsLib';
 import ClientObject from '../src/class/ClientObject';
-// import { getAllOrders } from '../src/function/getFunc';
-// import formListForSuppliers from '../src/function/formFinalList';
+import Orders from '../src/class/Orders';
+import formListForSuppliers from '../src/function/formFinalList';
 const assert = require('assert');
-// const { expect, assert } = require('chai');
 
 describe('class Suppliers', function() {
   var tests;
@@ -141,5 +140,111 @@ describe('class ClientsLib', function() {
       })
     })
   }
-
 })
+
+describe('mainFunc', function() {
+  it (`order1`, function() {
+    refreshClientsBase();
+    setSuppliers(['A', 'B', 'C', 'D']);
+    setItems(['a', 'b', 'c']);
+
+    var client1 = clients.addClient('client1').getClient('client1');
+    var client2 = clients.addClient('client2').getClient('client2');
+    var client3 = clients.addClient('client3').getClient('client3');
+
+    client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['a', 'b']);
+    client2.makeOrder('C', ['a']).makeOrder('B', ['b', 'c']);
+    client3.makeOrder('B', ['a']).makeOrder('D', ['b', 'c']);
+
+    var expected = [
+      ['A', ['a', 'b']],
+      ['B', ['a', 'b', 'c']],
+      ['C', ['a']],
+      ['D', ['b', 'c']]
+    ]
+
+    const resultList = formListForSuppliers(clients.getClientList());
+    clients.informClients();
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order2`, function() {
+    refreshClientsBase();
+    setSuppliers(['A', 'B', 'C', 'D']);
+    setItems(['a', 'b', 'c']);
+
+    var client1 = clients.addClient('client1').getClient('client1');
+    var client2 = clients.addClient('client2').getClient('client2');
+    var client3 = clients.addClient('client3').getClient('client3');
+
+    client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['c', 'b']);
+    client2.makeOrder('C', ['b', 'c']).makeOrder('B', ['a']);
+    client3.makeOrder('B', ['a']).makeOrder('D', ['c', 'a']);
+
+    var expected = [
+      ['A', ['a', 'b']],
+      ['B', ['a', 'b', 'c']],
+      ['C', ['b', 'c']],
+      ['D', ['a', 'c']]
+    ]
+
+    const resultList = formListForSuppliers(clients.getClientList());
+    clients.informClients();
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order3`, function() {
+    refreshClientsBase();
+    setSuppliers(['A', 'B', 'C', 'D', 'E']);
+    setItems(['a', 'b', 'c']);
+
+    var client1 = clients.addClient('client1').getClient('client1');
+    var client2 = clients.addClient('client2').getClient('client2');
+    var client3 = clients.addClient('client3').getClient('client3');
+    var client4 = clients.addClient('client4').getClient('client4');
+    var client5 = clients.addClient('client5').getClient('client5');
+    var client6 = clients.addClient('client6').getClient('client6');
+
+    client1.makeOrder('B', ['c', 'b']);
+    client2.makeOrder('C', ['b', 'c']).makeOrder('E', ['a']);
+    client3.makeOrder('B', ['a']).makeOrder('D', ['c', 'a']);
+    client4.makeOrder('D', ['a']).makeOrder('A', ['a']);
+    client5.makeOrder('B', ['a', 'c']);
+    client6.makeOrder('C', ['c']).makeOrder('E', ['b', 'a']);
+
+    var expected = [
+      ['A', ['a']],
+      ['B', ['a', 'b', 'c']],
+      ['C', ['b', 'c']],
+      ['D', ['a', 'c']],
+      ['E', ['a', 'b']]
+    ]
+
+    const resultList = formListForSuppliers(clients.getClientList());
+    clients.informClients();
+
+    const orderObj = new Orders(resultList)
+    console.log(orderObj);
+    assert.deepEqual(resultList, expected);
+  })
+})
+
+// describe('getData', function() {
+//   var tests;
+//   function testGetSuppliers() {
+//     tests = [
+//       ['A, B', ['A', 'B']],
+//       ['[], C', null],
+//       ['', []],
+//       ['', []]
+//     ];
+//     tests.forEach((test) => {
+//       it (`getSuppliers from ${test}`, function() {
+//         const [testValue, expected] = test;
+//         const testSup = getSuppliers(testValue);
+//         assert.deepEqual(testSup, expected);
+//       })
+//     })
+//   }
+//   it ('getSuppliers, getItems')
+// })

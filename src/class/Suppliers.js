@@ -2,11 +2,12 @@ import { isNonStrInArray } from '../function/checkFuncs';
 
 class Suppliers {
   constructor(arr) {
+    this.suppliersList = [];
     try {
       if (isNonStrInArray(arr) || !Array.isArray(arr)) {
         throw new Error();
       }
-      this.suppliersList = arr || [];
+      this.suppliersList = arr;
       arr.forEach((i) => {
         this[i] = [];
       });

@@ -1,8 +1,14 @@
-import { suppliers } from '../data/database';
+import { suppliers, clients } from '../data/database';
 import { deleteDublicate } from './correctList';
 
 function formListForSuppliers(orderList) {
-  orderList.forEach((i) => {
+  const list = orderList.reduce((acc, client) => {
+    clients.getClient(client).getOrder().forEach((i) => {
+      acc.push(i);
+    });
+    return acc;
+  }, []);
+  list.forEach((i) => {
     const [sup, supItems] = i;
     supItems.forEach((i) => {
       suppliers.getSupplier(sup).push(i);
@@ -14,7 +20,7 @@ function formListForSuppliers(orderList) {
     suppliers.addSupplierItems(sup, deleteDublicate(thisSupplier));
   });
   return suppliers.getSuppliersList().map((i) => {
-    return [i, suppliers.getSupplier(i)];
+    return [i, suppliers.getSupplier(i).sort()];
   })
 }
 
