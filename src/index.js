@@ -1,23 +1,22 @@
 import { suppliers, items, clients, setSuppliers, setItems } from './data/database'; // load database
-import ClientsLib from './class/ClientsLib';
-import Orders from './class/Orders';
-import formListForSuppliers from './function/formFinalList';
+import Orders from './class/Orders'; // class that contains combined Orders
 
 const clientsLib = function() {
   setSuppliers(['A', 'B', 'C', 'D']);
   setItems(['a', 'b', 'c']);
 
-  clients.addClient('client1').getClient('client1')
+  clients.addClient('client1')
     .makeOrder('A', ['a', 'b'])
     .makeOrder('B', ['a', 'b']);
-  clients.addClient('client2').getClient('client2')
+  clients.addClient('client2')
     .makeOrder('C', ['a'])
     .makeOrder('B', ['b', 'c']);
-  clients.addClient('client3').getClient('client3')
+  clients.addClient('client3')
     .makeOrder('B', ['a'])
     .makeOrder('D', ['b', 'c']);
 
-  const orders = new Orders(formListForSuppliers(clients.getClientList()));
+  const orders = new Orders(clients);
+  console.log(orders);
   clients.informClients();
 }
 

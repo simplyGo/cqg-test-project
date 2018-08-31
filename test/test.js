@@ -90,7 +90,7 @@ describe('class ClientsLib', function() {
     ];
     tests.forEach((test) => {
       it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClient(test);
+        const testSup = new ClientsLib().addClientRow(test);
         const expected = {
           clientList: []
         }
@@ -109,7 +109,7 @@ describe('class ClientsLib', function() {
     ];
     tests.forEach((test) => {
       it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClient(test);
+        const testSup = new ClientsLib().addClientRow(test);
         const expected = {
           clientList: []
         }
@@ -132,7 +132,7 @@ describe('class ClientsLib', function() {
     ];
     tests.forEach((test) => {
       it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClient(test);
+        const testSup = new ClientsLib().addClientRow(test);
         const expected = {
           clientList: []
         }
@@ -148,9 +148,9 @@ describe('mainFunc', function() {
     setSuppliers(['A', 'B', 'C', 'D']);
     setItems(['a', 'b', 'c']);
 
-    var client1 = clients.addClient('client1').getClient('client1');
-    var client2 = clients.addClient('client2').getClient('client2');
-    var client3 = clients.addClient('client3').getClient('client3');
+    var client1 = clients.addClient('client1');
+    var client2 = clients.addClient('client2');
+    var client3 = clients.addClient('client3');
 
     client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['a', 'b']);
     client2.makeOrder('C', ['a']).makeOrder('B', ['b', 'c']);
@@ -173,9 +173,9 @@ describe('mainFunc', function() {
     setSuppliers(['A', 'B', 'C', 'D']);
     setItems(['a', 'b', 'c']);
 
-    var client1 = clients.addClient('client1').getClient('client1');
-    var client2 = clients.addClient('client2').getClient('client2');
-    var client3 = clients.addClient('client3').getClient('client3');
+    var client1 = clients.addClient('client1');
+    var client2 = clients.addClient('client2');
+    var client3 = clients.addClient('client3');
 
     client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['c', 'b']);
     client2.makeOrder('C', ['b', 'c']).makeOrder('B', ['a']);
@@ -198,12 +198,12 @@ describe('mainFunc', function() {
     setSuppliers(['A', 'B', 'C', 'D', 'E']);
     setItems(['a', 'b', 'c']);
 
-    var client1 = clients.addClient('client1').getClient('client1');
-    var client2 = clients.addClient('client2').getClient('client2');
-    var client3 = clients.addClient('client3').getClient('client3');
-    var client4 = clients.addClient('client4').getClient('client4');
-    var client5 = clients.addClient('client5').getClient('client5');
-    var client6 = clients.addClient('client6').getClient('client6');
+    var client1 = clients.addClient('client1');
+    var client2 = clients.addClient('client2');
+    var client3 = clients.addClient('client3');
+    var client4 = clients.addClient('client4');
+    var client5 = clients.addClient('client5');
+    var client6 = clients.addClient('client6');
 
     client1.makeOrder('B', ['c', 'b']);
     client2.makeOrder('C', ['b', 'c']).makeOrder('E', ['a']);
@@ -222,29 +222,6 @@ describe('mainFunc', function() {
 
     const resultList = formListForSuppliers(clients.getClientList());
     clients.informClients();
-
-    const orderObj = new Orders(resultList)
-    console.log(orderObj);
     assert.deepEqual(resultList, expected);
   })
 })
-
-// describe('getData', function() {
-//   var tests;
-//   function testGetSuppliers() {
-//     tests = [
-//       ['A, B', ['A', 'B']],
-//       ['[], C', null],
-//       ['', []],
-//       ['', []]
-//     ];
-//     tests.forEach((test) => {
-//       it (`getSuppliers from ${test}`, function() {
-//         const [testValue, expected] = test;
-//         const testSup = getSuppliers(testValue);
-//         assert.deepEqual(testSup, expected);
-//       })
-//     })
-//   }
-//   it ('getSuppliers, getItems')
-// })

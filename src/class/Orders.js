@@ -1,5 +1,8 @@
+import formListForSuppliers from '../function/formFinalList';
+
 class Orders {
-  constructor(arr) {
+  constructor(clientsLib) {
+    const arr = formListForSuppliers(clientsLib.getClientList());
     arr.forEach((i) => {
       const [sup, items] = i;
       this[sup] = items;

@@ -23,10 +23,26 @@ class ClientsLib {
     } catch(err) {
       return this;
     }
+    return this[name];
+  }
+
+  addClientRow(name) {
+    try {
+      if (typeof name !== 'string' || name === '') {
+        throw new Error();
+      }
+      this[name] = new ClientObject(name);
+      this.clientList.push(name);
+    } catch(err) {
+      return this;
+    }
     return this;
   }
 
   informClients() {
+    console.log(`
+      Notify to clients
+      `);
     this.clientList.forEach((i) => {
       const client = this.getClient(i);
       const order = this.getClient(i).getOrder();
