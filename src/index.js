@@ -1,5 +1,6 @@
 import { suppliers, items, clients, setSuppliers, setItems } from './data/database'; // load database
 import ClientsLib from './class/ClientsLib';
+import Orders from './class/Orders';
 import formListForSuppliers from './function/formFinalList';
 
 const clientsLib = function() {
@@ -16,7 +17,7 @@ const clientsLib = function() {
     .makeOrder('B', ['a'])
     .makeOrder('D', ['b', 'c']);
 
-  const resultList = formListForSuppliers(clients.getClientList());
+  const orders = new Orders(formListForSuppliers(clients.getClientList()));
   clients.informClients();
 }
 
