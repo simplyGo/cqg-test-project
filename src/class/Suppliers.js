@@ -1,9 +1,18 @@
+import { isNonStrInArray } from '../function/checkFuncs';
+
 class Suppliers {
   constructor(arr) {
-    this.suppliersList = arr;
-    arr.forEach((i) => {
-      this[i] = [];
-    })
+    try {
+      if (isNonStrInArray(arr) || !Array.isArray(arr)) {
+        throw new Error();
+      }
+      this.suppliersList = arr || [];
+      arr.forEach((i) => {
+        this[i] = [];
+      });
+    } catch(err) {
+      this.suppliersList = [];
+    }
   }
 
   getSupplier(name) {
@@ -21,6 +30,13 @@ class Suppliers {
   }
 
   addSupplierItems(sup, items) {
+    try {
+      if (!this[sup]) {
+        throw new Error(`${sup} is not a supplier`);
+      }
+    } catch (err) {
+      return this;
+    }
     this[sup] = items;
     return this;
   }

@@ -14,6 +14,13 @@ class ClientsLib {
   }
 
   addClient(name) {
+    try {
+      if (typeof name !== 'string' || name === '') {
+        throw new Error();
+      }
+    } catch(err) {
+      return this;
+    }
     this[name] = new ClientObject(name);
     this.clientList.push(name);
     return this;

@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "cqg test project",
   "bin": {
-    "cqg-lib": "src/bin/ClientsLib.js"
+    "cqg-lib": "src/bin/cqg-ClientsLib.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "babel-node -- src/tests/test.js",
+    "test": "mocha --compilers js:babel-core/register test/test.js",
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"

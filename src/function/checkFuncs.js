@@ -20,4 +20,8 @@ function hasSupplier(suppliersObj, supplier) {
   return true;
 }
 
-export { hasItem, hasSupplier };
+function isNonStrInArray(arr) {
+  return arr.findIndex((item) => typeof item !== 'string' || item === '') !== -1;
+}
+
+export { hasItem, hasSupplier, isNonStrInArray };
