@@ -1,10 +1,11 @@
-import { suppliers, items, clients, setSuppliers, setItems, refreshClientsBase } from '../src/data/database';
+import initConfig from '../src/config';
 import Suppliers from '../src/class/Suppliers';
 import ClientsLib from '../src/class/ClientsLib';
 import ClientObject from '../src/class/ClientObject';
-import Orders from '../src/class/Orders';
-import formListForSuppliers from '../src/function/formFinalList';
+import Order from '../src/class/Order';
 const assert = require('assert');
+
+const data = initConfig();
 
 describe('class Suppliers', function() {
   var tests;
@@ -144,10 +145,11 @@ describe('class ClientsLib', function() {
 
 describe('mainFunc', function() {
   it (`order1`, function() {
-    refreshClientsBase();
-    setSuppliers(['A', 'B', 'C', 'D']);
-    setItems(['a', 'b', 'c']);
+    data.refreshClientsBase();
+    data.setSuppliers(['A', 'B', 'C', 'D']);
+    data.setItems(['a', 'b', 'c']);
 
+    var clients = data.getClients();
     var client1 = clients.addClient('client1');
     var client2 = clients.addClient('client2');
     var client3 = clients.addClient('client3');
@@ -156,23 +158,23 @@ describe('mainFunc', function() {
     client2.makeOrder('C', ['a']).makeOrder('B', ['b', 'c']);
     client3.makeOrder('B', ['a']).makeOrder('D', ['b', 'c']);
 
-    var expected = [
+    var expected = new Order([
       ['A', ['a', 'b']],
       ['B', ['a', 'b', 'c']],
       ['C', ['a']],
       ['D', ['b', 'c']]
-    ]
+    ]);
 
-    const resultList = formListForSuppliers(clients.getClientList());
-    clients.informClients();
+    const resultList = data.formOrder().getOrder();
     assert.deepEqual(resultList, expected);
   })
 
   it (`order2`, function() {
-    refreshClientsBase();
-    setSuppliers(['A', 'B', 'C', 'D']);
-    setItems(['a', 'b', 'c']);
+    data.refreshClientsBase();
+    data.setSuppliers(['A', 'B', 'C', 'D']);
+    data.setItems(['a', 'b', 'c']);
 
+    var clients = data.getClients();
     var client1 = clients.addClient('client1');
     var client2 = clients.addClient('client2');
     var client3 = clients.addClient('client3');
@@ -181,23 +183,24 @@ describe('mainFunc', function() {
     client2.makeOrder('C', ['b', 'c']).makeOrder('B', ['a']);
     client3.makeOrder('B', ['a']).makeOrder('D', ['c', 'a']);
 
-    var expected = [
+    var expected = new Order([
       ['A', ['a', 'b']],
       ['B', ['a', 'b', 'c']],
       ['C', ['b', 'c']],
       ['D', ['a', 'c']]
-    ]
+    ]);
 
-    const resultList = formListForSuppliers(clients.getClientList());
+    const resultList = data.formOrder().getOrder();
     clients.informClients();
     assert.deepEqual(resultList, expected);
   })
 
   it (`order3`, function() {
-    refreshClientsBase();
-    setSuppliers(['A', 'B', 'C', 'D', 'E']);
-    setItems(['a', 'b', 'c']);
+    data.refreshClientsBase();
+    data.setSuppliers(['A', 'B', 'C', 'D', 'E']);
+    data.setItems(['a', 'b', 'c']);
 
+    var clients = data.getClients();
     var client1 = clients.addClient('client1');
     var client2 = clients.addClient('client2');
     var client3 = clients.addClient('client3');
@@ -212,15 +215,15 @@ describe('mainFunc', function() {
     client5.makeOrder('B', ['a', 'c']);
     client6.makeOrder('C', ['c']).makeOrder('E', ['b', 'a']);
 
-    var expected = [
+    var expected = new Order([
       ['A', ['a']],
       ['B', ['a', 'b', 'c']],
       ['C', ['b', 'c']],
       ['D', ['a', 'c']],
       ['E', ['a', 'b']]
-    ]
+    ]);
 
-    const resultList = formListForSuppliers(clients.getClientList());
+    const resultList = data.formOrder().getOrder();
     clients.informClients();
     assert.deepEqual(resultList, expected);
   })

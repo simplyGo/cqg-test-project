@@ -1,4 +1,4 @@
-import { getCorrectList } from '../function/correctList';
+import deleteDublicate from '../function/deleteDublicate';
 
 class ClientObject {
   constructor(name) {
@@ -15,8 +15,7 @@ class ClientObject {
   }
 
   makeOrder(supplier, items) {
-    const correctItems = getCorrectList(items);
-    // exception throw using !hasSupplier(supplier);
+    const correctItems = deleteDublicate(items);
     this.order.push([supplier, correctItems]);
     return this;
   }

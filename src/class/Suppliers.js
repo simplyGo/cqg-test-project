@@ -1,4 +1,6 @@
-import { isNonStrInArray } from '../function/checkFuncs';
+function isNonStrInArray(arr) {
+  return arr.findIndex((item) => typeof item !== 'string' || item === '') !== -1;
+}
 
 class Suppliers {
   constructor(arr) {
