@@ -47,13 +47,13 @@ You need to use database methods to configure library
 use string names for clients, suppliers and items
 otherwise it returns an error
 
-### methods
+## methods
 
  **data.clearDatabase()**
   returns new clean database
 
   use for writting test
-  *example*
+
 ```
 data.clearDatabase()
     .setSuppliers(['A', 'B', 'C', 'D'])
@@ -66,7 +66,7 @@ data.clearDatabase()
  **data.setSuppliers([...strings])**
   creates suppliers
 
-  *example*
+
 ```
   data.setSuppliers(['A', 'B', 'C', 'D'])
 ```
@@ -74,7 +74,7 @@ data.clearDatabase()
  **data.setItems(supplier, [...items])**
   adds items to supplier
 
-  *example*
+
 ```
   data.setItems('A', ['a', 'b', 'c'])
 ```
@@ -83,7 +83,7 @@ data.clearDatabase()
   returns client objec and its methods
 
   use it to form client order
-  *example*
+
 ```
   data.addClient('client1').makeorder('A', ['a', 'b', 'c'])
 ```
@@ -91,7 +91,7 @@ data.clearDatabase()
  **data.formOrder()**
   returns order object and notify all clients about delivery
 
-### making order
+## making order
 
 to make order you should get client object.
 
@@ -101,14 +101,14 @@ then you can makeOrder for this client
 
 use **.makerOrder(supplier, [...items])**
 
-*example*
+
 ```
 data.addClient('client1')
   .makeOrder('A', ['a', 'b', 'b', 'b'])
   .makeOrder('B', ['a', 'b']);
 ```
 
-### config examples
+## config examples
 
 ```
 const data = new Database();
