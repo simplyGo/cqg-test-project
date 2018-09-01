@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "cqg test project",
   "bin": {
-    "cqg-lib": "src/bin/cqg-ClientsLib.js"
+    "cqg-lib": "dist/bin/cqg-ClientsLib.js"
   },
   "files": [
     "dist"
