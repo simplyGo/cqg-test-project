@@ -3,13 +3,16 @@ import Database from './class/Database';
 function initConfig() {
   const data = new Database();
 
-  data.setSuppliers(['A', 'B', 'C', 'D']);
-  data.setItems(['a', 'b', 'c']);
+  data.setSuppliers(['A', 'B', 'C', 'D'])
+      .setItems('A', ['a', 'b', 'c'])
+      .setItems('B', ['a', 'b', 'c'])
+      .setItems('C', ['a', 'b', 'c'])
+      .setItems('D', ['a', 'b', 'c']);
 
   const clients = data.getClients();
 
   clients.addClient('client1')
-    .makeOrder('A', ['a', 'b'])
+    .makeOrder('A', ['a', 'b', 'b', 'b'])
     .makeOrder('B', ['a', 'b']);
   clients.addClient('client2')
     .makeOrder('C', ['a'])

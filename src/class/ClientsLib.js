@@ -49,9 +49,6 @@ class ClientsLib {
       console.log(`Dear client, ${i}.`);
       console.log('Your order:');
       order.forEach((delivery) => {
-        const [orderSupplier, orderItems] = i;
-
-        // console.log(orderSupplier);
         console.log(delivery);
       });
       console.log('has been sent to you');

@@ -7,156 +7,26 @@ const assert = require('assert');
 
 const data = initConfig();
 
-describe('class Suppliers', function() {
-  var tests;
-
-  function clearArr(arr) {
-    return arr.reduce((acc, item) => {
-      if (typeof item === 'string' && item !== '') {
-          acc.push(item);
-        };
-      return acc;
-    }, [])
-  }
-
-  function createSuppliersTest() {
-    tests = [
-      ['A', [], 'C'],
-      ['', 1],
-      []];
-    tests.forEach((test) => {
-      it (`create suppliers from ${test}`, function() {
-        const testSup = new Suppliers(test);
-        const expected = {
-          suppliersList: [],
-        }
-        // console.log(testSup);
-        // console.log(expected);
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-
-  function addSupplierItem() {
-    tests = ['A', 'B', 'C', 'D', 'E'];
-    tests.forEach((test) => {
-      it (`add suppliers from ${test}`, function() {
-        const testSup = new Suppliers().addSupplier(test);
-        const expected = {
-          suppliersList: [],
-        }
-        expected.suppliersList.push(test);
-        expected[test] = [];
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-
-  function addSupplierItems() {
-    tests = [
-      ['A', ['a', 'b', 'c']],
-      ['B', ['a', 'c']],
-      ['D', ['b', 'd']]
-    ];
-    var list = ['A', 'B'];
-    tests.forEach((test) => {
-      var [sup, items] = test;
-      console.log(sup);
-      console.log(items);
-      it (`add suppliers items from ${test}`, function() {
-        const testSup = new Suppliers(list).addSupplierItems(sup, items);
-        const expected = {
-          suppliersList: list,
-        }
-        list.forEach((i) => expected[i] = []);
-        if (list.findIndex((i) => i === sup) !== -1) {
-          expected[sup] = items;
-        };
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-
-  createSuppliersTest();
-  addSupplierItem();
-  addSupplierItems();
-});
-
-describe('class ClientsLib', function() {
-  var tests;
-  function addClientString() {
-    tests = [
-      'client1',
-      'client2'
-    ];
-    tests.forEach((test) => {
-      it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClientRow(test);
-        const expected = {
-          clientList: []
-        }
-        expected.clientList.push(test);
-        expected[test] = new ClientObject(test);
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-
-  function addClientNotString() {
-    tests = [
-      '',
-      1,
-      []
-    ];
-    tests.forEach((test) => {
-      it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClientRow(test);
-        const expected = {
-          clientList: []
-        }
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-
-  addClientString();
-  addClientNotString();
-});
-
-describe('class ClientsLib', function() {
-  var tests;
-  function addClientNotString() {
-    tests = [
-      '',
-      1,
-      []
-    ];
-    tests.forEach((test) => {
-      it (`create suppliers from ${test}`, function() {
-        const testSup = new ClientsLib().addClientRow(test);
-        const expected = {
-          clientList: []
-        }
-        assert.deepEqual(testSup, expected);
-      })
-    })
-  }
-})
-
 describe('mainFunc', function() {
   it (`order1`, function() {
-    data.refreshClientsBase();
-    data.setSuppliers(['A', 'B', 'C', 'D']);
-    data.setItems(['a', 'b', 'c']);
+    data.clearDatabase()
+        .setSuppliers(['A', 'B', 'C', 'D'])
+        .setItems('A',['a', 'b', 'c'])
+        .setItems('B',['a', 'b', 'c'])
+        .setItems('C',['a', 'b', 'c'])
+        .setItems('D',['a', 'b', 'c']);
 
     var clients = data.getClients();
-    var client1 = clients.addClient('client1');
-    var client2 = clients.addClient('client2');
-    var client3 = clients.addClient('client3');
 
-    client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['a', 'b']);
-    client2.makeOrder('C', ['a']).makeOrder('B', ['b', 'c']);
-    client3.makeOrder('B', ['a']).makeOrder('D', ['b', 'c']);
+    clients.addClient('client1')
+           .makeOrder('A', ['a', 'b'])
+           .makeOrder('B', ['a', 'b']);
+    clients.addClient('client2')
+           .makeOrder('C', ['a'])
+           .makeOrder('B', ['b', 'c']);
+    clients.addClient('client3')
+           .makeOrder('B', ['a'])
+           .makeOrder('D', ['b', 'c']);
 
     var expected = new Order([
       ['A', ['a', 'b']],
@@ -165,66 +35,188 @@ describe('mainFunc', function() {
       ['D', ['b', 'c']]
     ]);
 
-    const resultList = data.formOrder().getOrder();
+    const resultList = data.formOrder();
     assert.deepEqual(resultList, expected);
   })
 
   it (`order2`, function() {
-    data.refreshClientsBase();
-    data.setSuppliers(['A', 'B', 'C', 'D']);
-    data.setItems(['a', 'b', 'c']);
+    data.clearDatabase()
+        .setSuppliers(['A', 'B', 'C', 'D'])
+        .setItems('A',['a', 'b'])
+        .setItems('B',['a', 'b', 'c'])
+        .setItems('C',['a', 'c'])
+        .setItems('D',['c']);
 
     var clients = data.getClients();
-    var client1 = clients.addClient('client1');
-    var client2 = clients.addClient('client2');
-    var client3 = clients.addClient('client3');
 
-    client1.makeOrder('A', ['a', 'b']).makeOrder('B', ['c', 'b']);
-    client2.makeOrder('C', ['b', 'c']).makeOrder('B', ['a']);
-    client3.makeOrder('B', ['a']).makeOrder('D', ['c', 'a']);
+    clients.addClient('client1')
+           .makeOrder('A', ['a', 'b'])
+           .makeOrder('B', ['a', 'c']);
+    clients.addClient('client2')
+           .makeOrder('D', ['c']);
 
     var expected = new Order([
       ['A', ['a', 'b']],
-      ['B', ['a', 'b', 'c']],
-      ['C', ['b', 'c']],
-      ['D', ['a', 'c']]
+      ['B', ['a', 'c']],
+      ['D', ['c']]
     ]);
 
-    const resultList = data.formOrder().getOrder();
-    clients.informClients();
+    const resultList = data.formOrder();
     assert.deepEqual(resultList, expected);
   })
 
   it (`order3`, function() {
-    data.refreshClientsBase();
-    data.setSuppliers(['A', 'B', 'C', 'D', 'E']);
-    data.setItems(['a', 'b', 'c']);
+    data.clearDatabase()
+        .setSuppliers(['A', 'B', 'C', 'D'])
+        .setItems('A',['a', 'b'])
+        .setItems('B',['a', 'c', 'd'])
+        .setItems('C',['a', 'c'])
+        .setItems('D',['c', 'e']);
 
     var clients = data.getClients();
-    var client1 = clients.addClient('client1');
-    var client2 = clients.addClient('client2');
-    var client3 = clients.addClient('client3');
-    var client4 = clients.addClient('client4');
-    var client5 = clients.addClient('client5');
-    var client6 = clients.addClient('client6');
 
-    client1.makeOrder('B', ['c', 'b']);
-    client2.makeOrder('C', ['b', 'c']).makeOrder('E', ['a']);
-    client3.makeOrder('B', ['a']).makeOrder('D', ['c', 'a']);
-    client4.makeOrder('D', ['a']).makeOrder('A', ['a']);
-    client5.makeOrder('B', ['a', 'c']);
-    client6.makeOrder('C', ['c']).makeOrder('E', ['b', 'a']);
+    clients.addClient('client1')
+           .makeOrder('A', ['a', 'b'])
+           .makeOrder('B', ['a', 'c']);
+    clients.addClient('client2')
+           .makeOrder('C', ['c']);
+    clients.addClient('client3')
+           .makeOrder('B', ['d'])
+           .makeOrder('C', ['a', 'c']);
+    clients.addClient('client4')
+           .makeOrder('A', ['b'])
+           .makeOrder('D', ['e']);
+    clients.addClient('client5')
+           .makeOrder('D', ['c']);
 
     var expected = new Order([
-      ['A', ['a']],
-      ['B', ['a', 'b', 'c']],
-      ['C', ['b', 'c']],
-      ['D', ['a', 'c']],
-      ['E', ['a', 'b']]
+      ['A', ['a', 'b']],
+      ['B', ['a', 'c', 'd']],
+      ['C', ['a', 'c']],
+      ['D', ['c', 'e']]
     ]);
 
-    const resultList = data.formOrder().getOrder();
-    clients.informClients();
+    const resultList = data.formOrder();
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order4 error`, function() {
+    data.clearDatabase()
+        .setSuppliers(['A', 'B', 'C', 'D'])
+        .setItems('A',['a', 'b'])
+        .setItems('B',['a', 'c', 'd'])
+        .setItems('C',['a', 'c'])
+        .setItems('D',['c', 'e']);
+
+    var clients = data.getClients();
+
+    clients.addClient('client1')
+           .makeOrder('A', ['a', 'b'])
+           .makeOrder('B', ['a', 'c']);
+    clients.addClient('client2')
+           .makeOrder('C', ['c']);
+    clients.addClient('client3')
+           .makeOrder('B', ['d'])
+           .makeOrder('D', ['a', 'c']);
+
+    var expected = new Error(`D doesn't have item [a]`);
+
+    const resultList = data.formOrder();
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order5 error`, function() {
+    data.clearDatabase()
+        .setSuppliers(['A', 'B', 'C', 'D'])
+        .setItems('A',['a', 'b'])
+        .setItems('B',['a', 'c', 'd'])
+        .setItems('C',['a', 'c'])
+        .setItems('D',['c', 'e']);
+
+    var clients = data.getClients();
+
+    clients.addClient('client1')
+           .makeOrder('E', ['a', 'b'])
+           .makeOrder('B', ['a', 'c']);
+    clients.addClient('client2')
+           .makeOrder('C', ['c']);
+    clients.addClient('client3')
+           .makeOrder('B', ['d'])
+           .makeOrder('D', ['a', 'c']);
+
+    var expected = new Error(`E is not a supplier`);
+
+    const resultList = data.formOrder();
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order6 error`, function() {
+    data.clearDatabase();
+
+    var expected = new Error(`A is not a supplier`);
+
+    const resultList = data.setSuppliers([]).setItems('A', ['a', 'b']);
+
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order7 error`, function() {
+    data.clearDatabase();
+
+    var expected = new Error(`A is not Array`);
+
+    const resultList = data.setSuppliers('A');
+
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order8 error`, function() {
+    data.clearDatabase();
+    let resultList;
+    var expected = new Error(`You're trying to add non string item to supplier A`);
+
+    resultList = data.setSuppliers(['A']).setItems('A', ['a', 1, 'b']);
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order9 error`, function() {
+    let resultList;
+    var expected = new Error(`Supplier name must be a string`);
+
+    resultList = data.clearDatabase().setSuppliers(['A']).setItems(1, ['a', 1, 'b']);
+
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A']).setItems([], ['a', 1, 'b']);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A']).setItems(undefined, ['a', 1, 'b']);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A']).setItems({}, ['a', 1, 'b']);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A']).setItems(null, ['a', 1, 'b']);
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order10 error`, function() {
+    let resultList;
+    var expected = new Error(`Supplier name must be a string`);
+
+    resultList = data.clearDatabase().setSuppliers(['1', 3]);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A', undefined]);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['A', []]);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers([{}, '5']);
+    assert.deepEqual(resultList, expected);
+    resultList = data.clearDatabase().setSuppliers(['a', 'b', null]);
+    assert.deepEqual(resultList, expected);
+  })
+
+  it (`order11 error`, function() {
+    let resultList;
+    var expected = new Error(`You're trying to add an empty string item to supplier A`);
+
+    resultList = data.setSuppliers(['A']).setItems('A', ['a', '', 'b']);
     assert.deepEqual(resultList, expected);
   })
 })

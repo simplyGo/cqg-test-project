@@ -1,5 +1,3 @@
-import deleteDublicate from '../function/deleteDublicate';
-
 class ClientObject {
   constructor(name) {
     this.name = name;
@@ -15,8 +13,7 @@ class ClientObject {
   }
 
   makeOrder(supplier, items) {
-    const correctItems = deleteDublicate(items);
-    this.order.push([supplier, correctItems]);
+    this.order.push([supplier, items]);
     return this;
   }
 }
