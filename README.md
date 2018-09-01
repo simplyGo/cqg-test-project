@@ -1,6 +1,6 @@
 # Commands
 
-use **make start** to rub lib
+use **make start** to run lib
 
 use **const data = new Database();** in your config file to create new database;
 
