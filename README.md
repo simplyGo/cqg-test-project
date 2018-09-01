@@ -26,8 +26,6 @@ function initConfig() {
       .setItems('C', ['a', 'b', 'c'])
       .setItems('D', ['a', 'b', 'c']);
 
-  const clients = data.getClients();
-
   data.addClient('client1')
     .makeOrder('A', ['a', 'b', 'b', 'b'])
     .makeOrder('B', ['a', 'b']);
