@@ -13,7 +13,7 @@ otherwise it returns an error
   returns new clean database
 
   use for writting test
-  >*example*
+  *example*
 ```
 data.clearDatabase()
     .setSuppliers(['A', 'B', 'C', 'D'])
@@ -26,7 +26,7 @@ data.clearDatabase()
 -ul **data.setSuppliers([...strings])**
   creates suppliers
 
-  >*example*
+  *example*
 ```
   data.setSuppliers(['A', 'B', 'C', 'D'])
 ```
@@ -34,7 +34,7 @@ data.clearDatabase()
 -ul **data.setItems(supplier, [...items])**
   adds items to supplier
 
-  >*example*
+  *example*
 ```
   data.setItems('A', ['a', 'b', 'c'])
 ```
@@ -43,7 +43,7 @@ data.clearDatabase()
   returns client objec and its methods
 
   use it to form client order
-  >*example*
+  *example*
 ```
   data.addClient('client1').makeorder('A', ['a', 'b', 'c'])
 ```
@@ -61,7 +61,7 @@ then you can makeOrder for this client
 
 use **.makerOrder(supplier, [...items])**
 
->*example*
+*example*
 ```
 data.addClient('client1')
   .makeOrder('A', ['a', 'b', 'b', 'b'])
