@@ -11,13 +11,13 @@ function initConfig() {
 
   const clients = data.getClients();
 
-  clients.addClient('client1')
+  data.addClient('client1')
     .makeOrder('A', ['a', 'b', 'b', 'b'])
     .makeOrder('B', ['a', 'b']);
-  clients.addClient('client2')
+  data.addClient('client2')
     .makeOrder('C', ['a'])
     .makeOrder('B', ['b', 'c']);
-  clients.addClient('client3')
+  data.addClient('client3')
     .makeOrder('B', ['a'])
     .makeOrder('D', ['b', 'c']);
 

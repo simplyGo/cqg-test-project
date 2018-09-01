@@ -6,6 +6,12 @@ class ClientsLib {
   }
 
   getClient(name) {
+    if (typeof name !== 'string' || name === '') {
+      throw new Error('Client name should be a string');
+    }
+    if (!this[name]) {
+      throw new Error(`There's no client ${name}`);
+    }
     return this[name];
   }
 
@@ -16,7 +22,7 @@ class ClientsLib {
   addClient(name) {
     try {
       if (typeof name !== 'string' || name === '') {
-        throw new Error();
+        throw new Error('Client name should be a string');
       }
       this[name] = new ClientObject(name);
       this.clientList.push(name);

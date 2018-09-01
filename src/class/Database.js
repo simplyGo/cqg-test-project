@@ -62,6 +62,23 @@ class Database {
   getClients() {
     return this.clients;
   }
+  getClient(name) {
+    try {
+      return this.clients.getClient(name);
+    } catch(err) {
+      console.log(err);
+      return err;
+    }
+  }
+  addClient(name) {
+    try {
+      this.clients.addClient(name);
+      return this.clients.getClient(name);
+    } catch(err) {
+      console.log(err);
+      return err;
+    }
+  }
   formOrder() {
     try {
       const clients = this.clients;
