@@ -9,7 +9,7 @@ otherwise it returns an error
 
 ## methods
 
--ul **data.clearDatabase()**
+ **data.clearDatabase()**
   returns new clean database
 
   use for writting test
@@ -23,7 +23,7 @@ data.clearDatabase()
     .setItems('D',['c', 'e']);
 ```
 
--ul **data.setSuppliers([...strings])**
+ **data.setSuppliers([...strings])**
   creates suppliers
 
   *example*
@@ -31,7 +31,7 @@ data.clearDatabase()
   data.setSuppliers(['A', 'B', 'C', 'D'])
 ```
 
--ul **data.setItems(supplier, [...items])**
+ **data.setItems(supplier, [...items])**
   adds items to supplier
 
   *example*
@@ -39,7 +39,7 @@ data.clearDatabase()
   data.setItems('A', ['a', 'b', 'c'])
 ```
 
--ul **data.addClient(clientName)**
+ **data.addClient(clientName)**
   returns client objec and its methods
 
   use it to form client order
@@ -48,7 +48,7 @@ data.clearDatabase()
   data.addClient('client1').makeorder('A', ['a', 'b', 'c'])
 ```
 
--ul **data.formOrder()**
+ **data.formOrder()**
   returns order object and notify all clients about delivery
 
 ## making order
