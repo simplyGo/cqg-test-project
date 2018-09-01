@@ -1,6 +1,6 @@
 {
   "name": "project-simplygo-cqg-test",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "cqg test project",
   "bin": {
     "cqg-lib": "dist/bin/cqg-ClientsLib.js"
